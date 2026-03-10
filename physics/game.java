@@ -1,0 +1,22 @@
+import javax.swing.JFrame;
+
+public class game{
+    public static void main(String[] args){
+        JFrame window = new JFrame();
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+        window.setTitle("Physics Sim. 0.2.0");
+
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
+
+        window.pack();
+
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+        gamePanel.startGameThread();
+
+    }
+}
+
