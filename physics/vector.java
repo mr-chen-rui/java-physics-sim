@@ -6,4 +6,7 @@ public class vector {
         this.x = x;
         this.y = y;
     }
+    double dot(vector a, vector b){
+        return (a.x * b.x) + (a.y * b.y);
+    }
 }

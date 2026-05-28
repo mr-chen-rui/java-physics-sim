@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -13,23 +14,19 @@ public class GamePanel extends JPanel implements Runnable{
     final int maxScreenRow = 12;
     final int screenWidth = panelSize * maxScreenCol;
     final int screenHeight = panelSize * maxScreenRow;
-
-    final float restitution = 0.6f;
+    final double COLL_MARGIN = 0.001;
+    final double restitution = 0.6;
 
     int FPS = 60;
 
     Thread gameThread;
-    KeyHandler keyH = new KeyHandler();
+    public KeyHandler keyH = new KeyHandler();
 
     float playerX = 100;
     float playerY = 100;
     float playerSpeed = 48;
 
-    public Entity[] entities = {
-        new Entity(200,200,20),
-        new Entity(400,300,20),
-        new Entity(600,400,20)
-    };
+    public ArrayList<Entity> entities = new ArrayList<Entity>();
 
     public float dot(float x1,float y1,float x2,float y2){
         return x1*x2 + y1*y2;
@@ -50,6 +47,10 @@ public class GamePanel extends JPanel implements Runnable{
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
+
+        entities.add(new Entity(200,200,20));
+        entities.add(new Entity(400,300,20));
+        entities.add(new Entity(600,400,20));
     }
 
     @Override
@@ -115,6 +116,11 @@ public class GamePanel extends JPanel implements Runnable{
 
         g2.setColor(Color.WHITE);
 
+        //Spawn new objects
+        if (keyH.mousedown){
+            keyH.mousedown = false;
+            entities.add(new Entity(keyH.mousepos,20));
+        }
 
         //Walls
 
@@ -127,8 +133,8 @@ public class GamePanel extends JPanel implements Runnable{
 
         //Entities
 
-        for (int i = 0; i < entities.length; i++){
-            Entity e = entities[i];
+        for (int i = 0; i < entities.size(); i++){
+            Entity e = entities.get(i);
 
             if (e != null){
 
@@ -144,7 +150,9 @@ public class GamePanel extends JPanel implements Runnable{
                     if (w != null){
                         //System.out.println(w.dx+"      "+  -w.dy);
                         if ( w.lineCircle(e.worldX,e.worldY,e.radius) ){//need better detection algorithm
-                            
+                            if (e.worldY-COLL_MARGIN < screenHeight - e.radius){
+                                e.velocityY = 0;
+                            }
                             e.worldY = screenHeight - e.radius;
 
                             e.velocityY = (float) Math.floor(-e.velocityY * (restitution));
@@ -153,8 +161,8 @@ public class GamePanel extends JPanel implements Runnable{
                     }
                 }
 
-                for (int j = 0;j<entities.length;j++){
-                    Entity other = entities[i];
+                for (int j = 0;j<entities.size();j++){
+                    Entity other = entities.get(j);
                     if (other != e && other != null){
                         
                     }

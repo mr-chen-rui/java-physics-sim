@@ -32,7 +32,7 @@ public class StaticWall {
 
     public double magnitude(double x,double y){
 
-        return (double)sqrt(x*x + y*y);
+        return sqrt(x*x + y*y);
 
     }
 
@@ -84,15 +84,22 @@ public class StaticWall {
         }
         return false;
         
-        }
+    }
 
-        public vector nearestPointOnLine(double px, double py){
+    public vector nearestPointOnLine(double px, double py){
         double dot = ( ((px-startX)*(endX-startX)) + ((py-endY)*(endY-startY)) ) / Math.pow(length,2);
         double closestX = startX + (dot * (endX - startX));
         double closestY = startY + (dot * (endY - startY));
 
         // System.out.println(closestX+"      "+closestY);
         return new vector(closestX,closestY);
+    }
+    public vector nearestPointOnLine(vector v){
+        double dot = ( ((v.x-startX)*(endX-startX)) + ((v.y-endY)*(endY-startY)) ) / Math.pow(length,2);
+        double closestX = startX + (dot * (endX - startX));
+        double closestY = startY + (dot * (endY - startY));
+
+        return new vector(closestX, closestY);
     }
 
 }
