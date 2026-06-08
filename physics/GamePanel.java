@@ -14,13 +14,14 @@ public class GamePanel extends JPanel implements Runnable{
     final int maxScreenRow = 12;
     final int screenWidth = panelSize * maxScreenCol;
     final int screenHeight = panelSize * maxScreenRow;
-    final double COLL_MARGIN = 0.001;
+    final double COLL_MARGIN = 5;
     final double restitution = 0.6;
 
     int FPS = 60;
 
     Thread gameThread;
     public KeyHandler keyH = new KeyHandler();
+    public MouseHandler mouseH = new MouseHandler();
 
     float playerX = 100;
     float playerY = 100;
@@ -42,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        addMouseListener(mouseH);
     }
 
     public void startGameThread(){
@@ -117,9 +119,9 @@ public class GamePanel extends JPanel implements Runnable{
         g2.setColor(Color.WHITE);
 
         //Spawn new objects
-        if (keyH.mousedown){
-            keyH.mousedown = false;
-            entities.add(new Entity(keyH.mousepos,20));
+        if (mouseH.mousedown == true){
+            mouseH.mousedown = false;
+            entities.add(new Entity(mouseH.mousepos,20));
         }
 
         //Walls
@@ -150,12 +152,12 @@ public class GamePanel extends JPanel implements Runnable{
                     if (w != null){
                         //System.out.println(w.dx+"      "+  -w.dy);
                         if ( w.lineCircle(e.worldX,e.worldY,e.radius) ){//need better detection algorithm
-                            if (e.worldY-COLL_MARGIN < screenHeight - e.radius){
+                            if (e.velocityY < COLL_MARGIN){
                                 e.velocityY = 0;
                             }
                             e.worldY = screenHeight - e.radius;
 
-                            e.velocityY = (float) Math.floor(-e.velocityY * (restitution));
+                            e.velocityY = Math.floor(-e.velocityY * (restitution));
 
                         }
                     }
@@ -164,10 +166,11 @@ public class GamePanel extends JPanel implements Runnable{
                 for (int j = 0;j<entities.size();j++){
                     Entity other = entities.get(j);
                     if (other != e && other != null){
-                        
+                        if (e.collide_with(other)){
+                            
+                        }
                     }
                 }
-
 
 
                 //Draw
