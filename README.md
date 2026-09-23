@@ -11,9 +11,9 @@ A kinda bad physics simulator in Java using only Java native graphics.
 
 ## TODO
 
--Implement collisions in different directions
--Organize draw loop
--Create "springs"
+- Implement collisions in different directions
+- Organize draw loop
+- Create "springs"
 
 -----------
 Made ONLY with Java. My code only. No AI was used in this process.
