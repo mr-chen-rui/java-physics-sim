@@ -2,7 +2,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
 public class MouseHandler implements MouseListener {
-    public vector mousepos = new vector(0,0);
+    public Vector2 mousepos = new Vector2(0,0);
     public boolean mousedown = false;
 
     @Override
@@ -19,7 +19,7 @@ public class MouseHandler implements MouseListener {
     }
     @Override
     public void mousePressed(MouseEvent e){
-      mousepos = new vector(e.getX(),e.getY());
+      mousepos = new Vector2(e.getX(),e.getY());
       mousedown = true;
       System.out.println("Clicked!");
       System.out.println(e.getY());

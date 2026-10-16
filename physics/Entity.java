@@ -1,21 +1,29 @@
 public class Entity {
 
     
-    double worldX, worldY, radius;
-    double velocityX, velocityY;
+    double radius;
+
+    Vector2 position;
+    Vector2 velocity;
+
+    Vector2 force;
+    double density = 1;
+    double mass;
 
     Entity(float x,float y,float radius){
-        this.worldX = x;
-        this.worldY = y;
+        this.position = new Vector2(x,y);
         this.radius = radius;
+        mass = Math.PI * Math.pow(radius, 2)*mass;
     }
 
-
-    public double dist(double x1, double y1, double x2, double y2){
-        return Math.sqrt(Math.pow(x2-x1, 2)+ Math.pow(y2-y1,2));
+    Entity(Vector2 pos,float radius){
+        this.position = pos;
+        this.radius = radius;
+        mass = Math.PI * Math.pow(radius, 2) * density;
     }
+
     public boolean collide_with(Entity other){
-        if (this.radius + other.radius < dist(this.worldX, this.worldY, other.worldX, other.worldY)){
+        if (this.radius + other.radius < Vector2.dist(this.position, other.position)){
             return true;
 
         }
@@ -23,16 +31,26 @@ public class Entity {
             return false;
         }
     }
-    
-    Entity(vector pos,float radius){
-        this.worldX = pos.x;
-        this.worldY = pos.y;
-        this.radius = radius;
+    public boolean collide_with(StaticWall other){
+        return false;
     }
 
 
-    public double dist(vector a, vector b){
+    public double dist(Vector2 a, Vector2 b){
         return  Math.sqrt(Math.pow(a.x-b.x, 2)+ Math.pow(a.y-b.y,2));
+    }
+
+    public void addForce(Vector2 f){
+        this.force = this.force.add(f);
+    }
+
+    public void applyForce(double time){
+        velocity = velocity.add(this.force.divide(this.mass).multiply(time)); // F=MA so A = F/M
+        this.force = new Vector2(0, 0);
+    }
+
+    public void applyGravity(){ // F=MA so A = F/M
+
     }
 
 }
