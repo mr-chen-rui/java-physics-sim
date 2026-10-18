@@ -1,4 +1,4 @@
-# java-physics-sim
+# java-physics-sim 0.5
 
 ```text
     _  ___   ___      ___ _  ___   _____ ___ ___ ___     ___ ___ __  __ 
@@ -16,6 +16,4 @@ A kinda bad physics simulator in Java using only Java native graphics.
 - Create "springs"
 
 -----------
-Made ONLY with Java. My code only.
-
-
+Made ONLY with Java. My code only. No AI was used in this process.
