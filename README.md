@@ -1,4 +1,4 @@
-# java-physics-sim 0.5
+# java-physics-sim 0.6
 
 ```text
     _  ___   ___      ___ _  ___   _____ ___ ___ ___     ___ ___ __  __ 

@@ -17,8 +17,6 @@ public class GamePanel extends JPanel implements Runnable{
     final double COLL_MARGIN = 5;
     final double restitution = 0.6;
 
-    final double VERSION_NUMBER = 0.5;
-
     int FPS = 60;
 
     Thread gameThread;
