@@ -19,7 +19,7 @@
 *.tar.gz
 
 # MacOS-specific Finder config file
-.DS_store
+.DS_Store
 *.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
