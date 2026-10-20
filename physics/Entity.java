@@ -2,24 +2,25 @@ public class Entity {
 
     
     double radius;
+    double radiusScale = 0.1;
 
     Vector2 position;
-    Vector2 velocity;
+    Vector2 velocity = new Vector2(0, 0);
 
-    Vector2 force;
+    Vector2 force = new Vector2(0, 0);
     double density = 1;
     double mass;
 
     Entity(float x,float y,float radius){
         this.position = new Vector2(x,y);
         this.radius = radius;
-        mass = Math.PI * Math.pow(radius, 2)*mass;
+        mass = Math.PI * Math.pow(radius * radiusScale, 2) * density;
     }
 
     Entity(Vector2 pos,float radius){
         this.position = pos;
         this.radius = radius;
-        mass = Math.PI * Math.pow(radius, 2) * density;
+        mass = Math.PI * Math.pow(radius * radiusScale, 2) * density;
     }
 
     public boolean collide_with(Entity other){
@@ -45,12 +46,15 @@ public class Entity {
     }
 
     public void applyForce(double time){
-        velocity = velocity.add(this.force.divide(this.mass).multiply(time)); // F=MA so A = F/M
+        if (time != 0){
+            velocity = velocity.add(this.force.divide(this.mass).multiply(time)); // F=MA so A = F/M
+            position = position.add(velocity);
+        }
         this.force = new Vector2(0, 0);
     }
 
-    public void applyGravity(){ // F=MA so A = F/M
-
+    @Override 
+    public String toString(){
+        return String.format("Entity with position %1$s, mass %2$f, velocity %3$s", this.position, this.mass, this.velocity);
     }
-
 }

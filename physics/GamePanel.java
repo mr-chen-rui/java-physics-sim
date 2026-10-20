@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -35,12 +34,12 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void startGameThread(){
-        gameThread = new Thread(this);
-        gameThread.start();
-
         physics.addEntity(new Entity(200,200,20));
         physics.addEntity(new Entity(400,300,20));
         physics.addEntity(new Entity(600,400,20));
+
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
     @Override
@@ -49,42 +48,42 @@ public class GamePanel extends JPanel implements Runnable{
 
         double drawInterval = 1000000000/FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
+        double delta = 0;
 
         while (gameThread != null){
+            try {
+                delta = nextDrawTime-System.nanoTime();
+                delta = delta/1000000000d;
+                if (delta < 0){
+                    delta = 0;
+                }
+                Thread.sleep((long)delta);
+
+                nextDrawTime = drawInterval + System.nanoTime();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             
             // System.out.println("RUNNING");
             
 
             // First UPDATE
 
-            update();
+            update(delta);
 
             // THEN draw
 
             repaint();   // This calls paintComponent (the one we overrode)
-
-            
-
-            try {
-                double remainingTime = nextDrawTime-System.nanoTime();
-                remainingTime = remainingTime/1000000;
-                if (remainingTime < 0){
-                    remainingTime = 0;
-                }
-                Thread.sleep((long)remainingTime);
-
-                nextDrawTime += drawInterval;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    public void update(){ // Physics update function
+    public void update(double delta){ // Physics update function
         if (mouseH.mousedown == true){
             mouseH.mousedown = false;
             physics.addEntity(new Entity(mouseH.mousepos,20));
         }
+        
+        physics.physicsStep(delta);
     }
 
     public void drawLine(Graphics2D g, Vector2 start, Vector2 end){ // Wrapper func

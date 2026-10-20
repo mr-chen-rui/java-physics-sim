@@ -34,5 +34,9 @@ public class Vector2 {
     public double length(){
         return Math.sqrt(Math.pow(this.x,2)+ Math.pow(this.y,2));
     }
+    @Override 
+    public String toString(){
+        return String.format("(%1$f ,%2$f)", this.x, this.y);
+    }
 }
 

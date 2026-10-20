@@ -40,6 +40,8 @@ public class Physics {
 
                 }
             }
+            entity.applyForce(delta);
+            System.out.println(entity);
             
         }
     }
